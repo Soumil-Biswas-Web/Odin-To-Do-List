@@ -5,48 +5,56 @@
     <title>Odin To-do List</title>
   </head>
   <body>
-    <dialog open>
-      <h3>New Task</h3>
-      <form method="dialog">
-        <label for="task_name">Enter Task</label>
-        <input type="text" id="task_name" name="task_name" placeholder="Enter Task" required>
-
-        <div class="task_difficulty">
-          <p>Task Difficulty</p>
-
-          <div>
-              <input type="radio" id="1" name="difficulty" value="1">
-              <label for="1">1</label>
+    <div id="content">
+      <dialog open>
+        <h3>New Task</h3>
+        <form method="dialog">
+          <label for="task_name">Enter Task</label>
+          <input type="text" id="task_name" name="task_name" placeholder="Enter Task" required>
+  
+          <div class="task_difficulty">
+            <p>Task Difficulty</p>
+  
+            <div>
+                <input type="radio" id="1" name="difficulty" value="1">
+                <label for="1">1</label>
+            </div>
+  
+            <div>
+                <input type="radio" id="2" name="difficulty" value="2" checked="">
+                <label for="2">2</label>
+            </div>
+            
+            <div>
+              <input type="radio" id="3" name="difficulty" value="3" checked="">
+              <label for="3">3</label>
+            </div>
+            
+            <div>
+              <input type="radio" id="4" name="difficulty" value="4" checked="">
+              <label for="4">4</label>
+            </div>
           </div>
-
-          <div>
-              <input type="radio" id="2" name="difficulty" value="2" checked="">
-              <label for="2">2</label>
-          </div>
-          
-          <div>
-            <input type="radio" id="3" name="difficulty" value="3" checked="">
-            <label for="3">3</label>
-          </div>
-          
-          <div>
-            <input type="radio" id="4" name="difficulty" value="4" checked="">
-            <label for="4">4</label>
-          </div>
+  
+          <input type="checkbox" id="permanent_task" name="permanent_task" value="True">
+          <label for="permanent_task"> Permanent Task?</label>
+  
+          <label for="task_reset">Task Resets Every:</label>
+          <input type="text" id="task_reset" name="task_reset" placeholder="2 Weeks">
+  
+          <label for="task_reset">Task Resets Every:</label>
+          <input type="text" id="task_reset" name="task_reset" placeholder="2 Days">
+  
+          <button>SAVE</button>
+        </form>
+      </dialog>
+  
+      <div class="list">
+        <div class="list_item">
+          <img src="checkbox" alt="">
+          Task description
         </div>
-
-        <input type="checkbox" id="permanent_task" name="permanent_task" value="True">
-        <label for="permanent_task"> Permanent Task?</label>
-
-        <label for="task_reset">Task Resets Every:</label>
-        <input type="text" id="task_reset" name="task_reset" placeholder="2 Weeks">
-
-        <label for="task_reset">Task Resets Every:</label>
-        <input type="text" id="task_reset" name="task_reset" placeholder="2 Days">
-
-        <button>SAVE</button>
-      </form>
-    </dialog>
-
+      </div>
+    </div>
   </body>
 </html>
