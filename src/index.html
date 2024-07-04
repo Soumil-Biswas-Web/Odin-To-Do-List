@@ -2,6 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
     <title>Odin To-do List</title>
   </head>
   <body>
@@ -36,14 +39,16 @@
             </div>
           </div>
   
-          <input type="checkbox" id="permanent_task" name="permanent_task" value="True">
-          <label for="permanent_task"> Permanent Task?</label>
-  
+          <div class="permatask_bloc">
+            <label for="permanent_task"> Permanent Task?</label>  
+            <input type="checkbox" id="permanent_task" name="permanent_task" value="True">
+          </div>
+
           <label for="task_reset">Task Resets Every:</label>
           <input type="text" id="task_reset" name="task_reset" placeholder="2 Weeks">
   
           <label for="task_reset">Task Resets Every:</label>
-          <input type="text" id="task_reset" name="task_reset" placeholder="2 Days">
+          <input type="text" id="task_reset_2" name="task_reset_2" placeholder="2 Days">
   
           <button>SAVE</button>
         </form>
