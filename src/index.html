@@ -9,9 +9,9 @@
   </head>
   <body>
     <div id="content">
-      <dialog open>
+      <dialog>
         <h3>New Task</h3>
-        <form method="dialog">
+        <form id="new_task_form" method="dialog">
           <label for="task_name">Enter Task</label>
           <input type="text" id="task_name" name="task_name" placeholder="Enter Task" required>
   
@@ -50,16 +50,84 @@
           <label for="task_reset">Task Resets Every:</label>
           <input type="text" id="task_reset_2" name="task_reset_2" placeholder="2 Days">
   
-          <button>SAVE</button>
+          <div class="buttons">
+            <button class="submit_button" type="submit">Save</button>
+            <button class="close_button" formaction="close">Cancel</button>
+          </div>
         </form>
       </dialog>
   
-      <div class="list">
-        <div class="list_item">
-          <img src="checkbox" alt="">
-          Task description
+      <div class="list_page">
+        <div class="header">
+          <button id="open_btn">
+            <img src="modules/Images/add-plus.svg" alt="">
+          </button>
         </div>
+        <div class="list">
+          <div class="list_item">
+            <img src="checkbox" alt="">
+            Task description
+          </div>
+        </div>  
       </div>
     </div>
   </body>
 </html>
+
+<script>
+
+  let list = [];
+  let list_panel = document.querySelector(".list");
+
+  // New List item Constructor
+  function item(name, difficulty, isPermanent) {
+    this.name = name;
+    this.difficulty = difficulty;
+    this.isPermanent = isPermanent;
+  }
+    
+  // Create new List Item Object
+  const createNewListItem = () => {
+    const listData = new FormData(form);
+
+    const name = listData.get("task_name");
+    const difficulty = listData.get("difficulty");
+    const isPermanent= listData.get("permanenet_task");
+
+    let listItem = new item (name, difficulty, isPermanent);
+    return listItem;
+  }
+
+  // Create List DOM
+  const createListDOM = (listItem) => {
+    let list_item = document.createElement("div");
+    list_item.setAttribute("class", "list_item");
+    list_item.textContent = listItem.name;
+    list_panel.appendChild(list_item);
+  }
+
+  //Add Item to list
+  const addToList = (listItem) => {
+    list.push(listItem);
+    createListDOM(listItem);
+  }
+
+  // Driver Code
+  const dialog = document.querySelector("dialog");
+  const form = document.querySelector("#new_task_form");
+  const closeBtn = document.querySelector(".close_button");
+
+  const newTask = document.querySelector("#open_btn");
+  newTask.addEventListener("click", () => {
+    console.log("Hello");
+    dialog.showModal()
+  });
+
+  form.addEventListener("submit", (e) => {
+      //e.preventDefault();
+      const newListItem = createNewListItem();
+      addToList(newListItem);
+  });
+
+  closeBtn.addEventListener("click", () => dialog.close());
+</script>
