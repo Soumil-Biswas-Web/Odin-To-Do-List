@@ -101,3 +101,8 @@ input[type="radio"]:checked {
 form label {
     padding-top: 20px;
 }
+
+
+.sub_list {
+    display: none;
+}

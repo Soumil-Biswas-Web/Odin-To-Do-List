@@ -65,8 +65,15 @@
         </div>
         <div class="list">
           <div class="list_item">
-            <img src="checkbox" alt="">
-            Task description
+            <img src="modules/Images/deselected.svg" alt="">
+            <p>Task description</p>
+          </div>
+        </div>  
+        <div class="sub_list">
+          <h3>Big boy Task</h3>
+          <div class="list_item">
+            <img src="modules/Images/deselected.svg" alt="">
+            <p>Task description</p>
           </div>
         </div>  
       </div>
@@ -78,12 +85,14 @@
 
   let list = [];
   let list_panel = document.querySelector(".list");
+  let sub_list_panel = document.querySelector(".sub_list");
 
   // New List item Constructor
   function item(name, difficulty, isPermanent) {
     this.name = name;
     this.difficulty = difficulty;
     this.isPermanent = isPermanent;
+    this.subList = [];
   }
     
   // Create new List Item Object
@@ -98,18 +107,48 @@
     return listItem;
   }
 
+  //Add Item to list
+  const addToList = (listItem) => {
+    list.push(listItem);
+  }
+
   // Create List DOM
   const createListDOM = (listItem) => {
     let list_item = document.createElement("div");
     list_item.setAttribute("class", "list_item");
-    list_item.textContent = listItem.name;
+    const p = document.createElement("p");
+    p.textContent = listItem.name;
+    list_item.appendChild(p);
     list_panel.appendChild(list_item);
+    createSubList(p, listitem);
   }
 
-  //Add Item to list
-  const addToList = (listItem) => {
-    list.push(listItem);
-    createListDOM(listItem);
+  // Sub-List Add Event Listener
+  const createSubList = (p, listitem) => {
+    p.addEventListener("click", () => {
+      list_panel.style.display = "none";
+      sub_list_panel.style.display = "block";
+      populateList(listitem);
+    })
+  }
+
+  // Populate List with items
+  const populateList = (listItem) => {
+      let subListHeading = document.querySelector(".sub_list h3");
+      subListHeading = listItem.name;
+      for (subListItem in listItem.subList) {
+        createSubListDOM(subListItem);
+      }
+   }
+
+  //Add Item to Sub-list
+  const addToSubList = (listItem) => {
+
+  }
+
+  // Create Sub-List DOM
+  const createSubListDOM = (listItem) => {
+
   }
 
   // Driver Code
@@ -127,7 +166,16 @@
       //e.preventDefault();
       const newListItem = createNewListItem();
       addToList(newListItem);
+      createListDOM(newListItem);
+
+      if (sub_list_panel.style.display == "block") {
+        // Find a reference to the Main list this sub list item goes into
+        addToSubList(newListItem)
+      }
   });
 
   closeBtn.addEventListener("click", () => dialog.close());
+
+  const taskDescr = document.querySelector(".list_item p");
+  createSubList(taskDescr);
 </script>
