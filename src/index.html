@@ -83,17 +83,23 @@
 
 <script>
 
-  let list = [];
   let list_panel = document.querySelector(".list");
   let sub_list_panel = document.querySelector(".sub_list");
+  const list_id = 0;
+  let currentID = 0;
 
   // New List item Constructor
-  function item(name, difficulty, isPermanent) {
+  function item(name, id, difficulty, isPermanent) {
     this.name = name;
+    this.id = id;
     this.difficulty = difficulty;
     this.isPermanent = isPermanent;
     this.subList = [];
   }
+
+  // Create Super List
+
+  const superList = new item ();
     
   // Create new List Item Object
   const createNewListItem = () => {
@@ -102,14 +108,15 @@
     const name = listData.get("task_name");
     const difficulty = listData.get("difficulty");
     const isPermanent= listData.get("permanenet_task");
+    const id = list_id + 1;
 
-    let listItem = new item (name, difficulty, isPermanent);
+    let listItem = new item (name, id, difficulty, isPermanent);
     return listItem;
   }
 
   //Add Item to list
-  const addToList = (listItem) => {
-    list.push(listItem);
+  const addToList = (listItem, superList) => {
+    superList.subList.push(listItem);
   }
 
   // Create List DOM
@@ -120,7 +127,7 @@
     p.textContent = listItem.name;
     list_item.appendChild(p);
     list_panel.appendChild(list_item);
-    createSubList(p, listitem);
+    createSubList(p, listItem);
   }
 
   // Sub-List Add Event Listener
@@ -133,45 +140,34 @@
   }
 
   // Populate List with items
-  const populateList = (listItem) => {
-      let subListHeading = document.querySelector(".sub_list h3");
-      subListHeading = listItem.name;
-      for (subListItem in listItem.subList) {
-        createSubListDOM(subListItem);
-      }
-   }
-
-  //Add Item to Sub-list
-  const addToSubList = (listItem) => {
-
-  }
-
-  // Create Sub-List DOM
-  const createSubListDOM = (listItem) => {
-
+  const populateList = (superList) => {
+    listPrime = superList;
+    currentID = superList.id;
+    console.log("Current ID: " + currentID);
+    let subListHeading = document.querySelector(".sub_list h3");
+    subListHeading.textContent = superList.name;
+    for (subListItem in superList.subList) {
+      createListDOM(subListItem);
+    }
   }
 
   // Driver Code
+  let listPrime = superList;
+
   const dialog = document.querySelector("dialog");
   const form = document.querySelector("#new_task_form");
   const closeBtn = document.querySelector(".close_button");
 
   const newTask = document.querySelector("#open_btn");
   newTask.addEventListener("click", () => {
-    console.log("Hello");
     dialog.showModal()
   });
 
   form.addEventListener("submit", (e) => {
       //e.preventDefault();
       const newListItem = createNewListItem();
-      addToList(newListItem);
+      addToList(newListItem, listPrime);
       createListDOM(newListItem);
-
-      if (sub_list_panel.style.display == "block") {
-        // Find a reference to the Main list this sub list item goes into
-        addToSubList(newListItem)
-      }
   });
 
   closeBtn.addEventListener("click", () => dialog.close());
