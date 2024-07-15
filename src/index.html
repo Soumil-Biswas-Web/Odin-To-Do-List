@@ -68,14 +68,7 @@
             <img src="modules/Images/deselected.svg" alt="">
             <p>Task description</p>
           </div>
-        </div>  
-        <div class="sub_list">
-          <h3>Big boy Task</h3>
-          <div class="list_item">
-            <img src="modules/Images/deselected.svg" alt="">
-            <p>Task description</p>
-          </div>
-        </div>  
+        </div>   
       </div>
     </div>
   </body>
@@ -84,7 +77,6 @@
 <script>
 
   let list_panel = document.querySelector(".list");
-  let sub_list_panel = document.querySelector(".sub_list");
   const list_id = 0;
   let currentID = 0;
 
@@ -133,10 +125,20 @@
   // Sub-List Add Event Listener
   const createSubList = (p, listitem) => {
     p.addEventListener("click", () => {
-      list_panel.style.display = "none";
-      sub_list_panel.style.display = "block";
+      clearList();
       populateList(listitem);
     })
+  }
+
+  // Clear all List Panel Items
+  const clearList = () => {   
+    let list_items = list_panel.children;
+    let len = list_items.length;
+    console.log(list_items);
+    for (let i = 0; i < len; i++) {
+      list_items[0].remove();
+      console.log("removed " + list_items[0]);
+    }
   }
 
   // Populate List with items
@@ -144,8 +146,9 @@
     listPrime = superList;
     currentID = superList.id;
     console.log("Current ID: " + currentID);
-    let subListHeading = document.querySelector(".sub_list h3");
+    let subListHeading = document.createElement("h3");
     subListHeading.textContent = superList.name;
+    list_panel.appendChild(subListHeading);
     for (subListItem in superList.subList) {
       createListDOM(subListItem);
     }
