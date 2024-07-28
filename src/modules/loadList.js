@@ -1,3 +1,5 @@
+import add_svg from './Images/add-plus.svg';
+
 //Add list and it's items to the DOM after creation
 
 const addListItem = () => {
@@ -16,4 +18,28 @@ const loadList = () => {
     return list;
 }
 
-export default loadList;
+const createHeader = () => {
+    const header = document.createElement("div");
+    header.setAttribute("class", "header");
+        const button = document.createElement("button");
+        button.setAttribute("id", "open_btn");
+        button.innerHTML = add_svg;
+    header.appendChild(button);
+    
+    return header;
+}
+
+const createFooter = () => {
+
+}
+
+const loadListPage = () => {
+    const list_page = document.createElement("div");
+    list_page.setAttribute("class", "list_page");
+
+    list_page.append(createHeader(), loadList());
+
+    return list_page;
+}
+
+export default loadListPage;

@@ -1,11 +1,11 @@
-import newListItem from "./createListItem";
-import loadList from "./loadList";
+import newListItemForm from "./createListItem";
+import loadListPage from "./loadList";
 
 // Runs functions to create header, main, and footer elements
 const pageLoad = (content) => {
-    content.appendChild(loadList());
+    content.appendChild(loadListPage());
 
-    content.appendChild(newListItem());
+    content.appendChild(newListItemForm());
 
     return content;
 }

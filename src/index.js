@@ -15,3 +15,11 @@ const init = () => {
 init();
 
 console.log("DOM created");
+
+const dialog = document.querySelector("dialog");
+
+// Open New Task Form
+const newTask = document.querySelector("#open_btn");
+newTask.addEventListener("click", () => {
+  dialog.showModal()
+});

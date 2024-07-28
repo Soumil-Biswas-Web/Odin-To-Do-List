@@ -103,6 +103,6 @@ form label {
 }
 
 
-.sub_list {
-    display: none;
+.list_item {
+    display: flex;
 }
