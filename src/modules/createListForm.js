@@ -1,3 +1,8 @@
+import {createListDOM, handleBackButton} from './loadList';
+import {createNewListItem, addToList, item} from './handleListItem';
+import list_id from './handleListItem';
+import { listPrime } from '../index';
+
 //Create dialog window for creating a new List Item
 const createRadioButton = (id, name, isChecked = true, hasLabel, labelText) => {
     let div = document.createElement("div");
@@ -55,13 +60,16 @@ const createTextInput = (id, name, placeholder, required, hasLabel, labelText) =
     return [label, input];    
 }
 
+let form;
+
 const newListItemForm = () => {
     const dialog = document.createElement("dialog");
 
         const h3 = document.createElement("h3");
         h3.textContent = "New Task";
 
-        const form = document.createElement("form");
+        form = document.createElement("form");
+            form.setAttribute("id", "new_task_form");
             form.setAttribute("method", "dialog");
 
                 const task_name_Label = document.createElement("label");
@@ -113,4 +121,35 @@ const newListItemForm = () => {
     return dialog;
 }
 
-export default newListItemForm;
+const handleFormButtons = () => {
+    const dialog = document.querySelector("dialog");
+
+    // Open New Task Form
+
+    const newTask = document.querySelector("#open_btn");
+    newTask.addEventListener("click", () => {
+    dialog.showModal()
+    });
+
+    // Go back to previous List
+    const goBack = document.querySelector("#back_btn");
+    goBack.addEventListener("click", () => {
+        handleBackButton();
+    });
+
+    // Handle Submit Button
+
+    const form = document.querySelector("#new_task_form");
+    form.addEventListener("submit", (e) => {
+    //e.preventDefault();
+    const newListItem = createNewListItem();
+    console.log("Current item: " + newListItem.name + "Being added to: " + listPrime.name);
+    addToList(newListItem, listPrime);
+    createListDOM(newListItem);
+    });
+
+    const closeBtn = document.querySelector(".close_button");
+    closeBtn.addEventListener("click", () => dialog.close());
+}
+
+export {newListItemForm, handleFormButtons, form};

@@ -102,7 +102,16 @@ form label {
     padding-top: 20px;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+}
 
 .list_item {
     display: flex;
+    align-items: center;
+}
+
+.list_item div {
+    margin-right: 10px;
 }

@@ -1,19 +1,100 @@
 import add_svg from './Images/add-plus.svg';
+import back_svg from './Images/arrow-left.svg';
+import deselected_svg from './Images/deselected.svg';
+import checkMark_svg from './Images/checkbox-outline.svg';
+import {listPrime, updateListPrime} from '../index';
+
+let currentID = 0;
+let list_panel;
 
 //Add list and it's items to the DOM after creation
 
-const addListItem = () => {
-    const listItem = document.createElement("div");
-    listItem.setAttribute("id", "list_item");
-    listItem.textContent = "Task Description";
-    return listItem;
+// Create List DOM
+const createListDOM = (listItem) => {
+    let list_item = document.createElement("div");
+    list_item.setAttribute("class", "list_item");
+    const checkMark = document.createElement("div");
+    list_item.appendChild(checkMark);
+    updateCheckMark(checkMark, listItem.taskState);
+    checkMark.addEventListener("click", () => {
+      handleCheckMark(checkMark, listItem);
+    });
+    const p = document.createElement("p");
+    p.textContent = listItem.name;
+    list_item.appendChild(p);
+    list_panel.appendChild(list_item);
+    createSubList(p, listItem);
 }
+
+// Sub-List Add Event Listener
+const createSubList = (p, listitem) => {
+    p.addEventListener("click", () => {
+      clearList();
+      populateList(listitem);
+    });
+}
+  
+// Clear all List Panel Items
+const clearList = () => {
+    let list_items = list_panel.children;
+    let len = list_items.length;
+    // console.log(list_items);
+    for (let i = 2; i < len; i++) {
+        list_items[2].remove();
+        // console.log("removed " + list_items[1]);
+    }
+}
+
+// Populate List with items
+const populateList = (superList) => {
+    updateListPrime(superList);
+    currentID = superList.id;
+    console.log("Current ID: " + currentID);
+    console.log("Current listPrime = " + listPrime.name);
+    let subListHeading = document.querySelector(".list h3");
+    subListHeading.textContent = superList.name;
+    console.log(superList.subList);
+    for (let i in superList.subList) {
+      createListDOM(superList.subList[i]);
+    }
+}
+
+// Handle Go Back button
+const handleBackButton = () => {
+    if (listPrime.name !== "Main List") {
+        clearList();
+        populateList(listPrime.superList);
+    }
+}
+  
+// Handle task Check Mark
+const handleCheckMark = (checkMark, listItem) => {
+    listItem.taskState = listItem.taskState ? false : true;
+    console.log(listItem.taskState);
+    updateCheckMark(checkMark, listItem.taskState);
+    
+    if (listItem.subList) {
+      if (listItem.taskState == true){
+           for (let i in listItem.subList) listItem.sublist[i].taskState = true;
+      }
+    }
+}
+
+const updateCheckMark = (checkMark, taskState) => {
+    if (taskState) {
+        checkMark.innerHTML = checkMark_svg;
+    }
+    else {
+        checkMark.innerHTML = deselected_svg;
+    }
+    // taskState ? checkMark.textContent = "✔" : checkMark.textContent = "[ ]"
+};
 
 const loadList = () => {
     const list = document.createElement("div");
-    list.setAttribute("id", "list");
-
-    list.appendChild(addListItem());
+    list.setAttribute("class", "list");
+    const h3 = document.createElement("h3");
+    list.appendChild(h3);
 
     return list;
 }
@@ -24,7 +105,10 @@ const createHeader = () => {
         const button = document.createElement("button");
         button.setAttribute("id", "open_btn");
         button.innerHTML = add_svg;
-    header.appendChild(button);
+        const back_button = document.createElement("button");
+        back_button.setAttribute("id", "back_btn");
+        back_button.innerHTML = back_svg;
+    header.append(back_button, button);
     
     return header;
 }
@@ -34,12 +118,13 @@ const createFooter = () => {
 }
 
 const loadListPage = () => {
-    const list_page = document.createElement("div");
-    list_page.setAttribute("class", "list_page");
+    list_panel = document.createElement("div");
+    list_panel.setAttribute("class", "list_panel");
 
-    list_page.append(createHeader(), loadList());
+    list_panel.append(createHeader(), loadList());
 
-    return list_page;
+    return list_panel;
 }
 
 export default loadListPage;
+export {populateList, createListDOM, handleBackButton};
