@@ -21,7 +21,11 @@ const updateListPrime = (superList) => {
     listPrime = superList;
 }
 
-export {listPrime, updateListPrime};
+const updateSave = () => {
+    localStorage.setItem("Main_List", superList);    
+}
+
+export {listPrime, updateListPrime, updateSave};
 
 // Driver Code
 
@@ -30,7 +34,7 @@ init();
 console.log("DOM created");
 
 // Create Super List
-const superList = new handleListItem.item ("Main List", handleListItem.list_id, 0, true);
+const superList = new handleListItem.item ("Main List", "", handleListItem.list_id, "", "", true);
 listPrime = superList;
 populateList(listPrime);
 

@@ -54,7 +54,7 @@ const createTextInput = (id, name, placeholder, required, hasLabel, labelText) =
             input.setAttribute("type", "text");
             input.setAttribute("id", id);
             input.setAttribute("name", name);
-            if(placeholder != "") input.setAttribute("placeholder", "Enter Task");
+            if(placeholder != "") input.setAttribute("placeholder", placeholder);
             if(required) input.setAttribute("required");
 
     return [label, input];    
@@ -81,6 +81,10 @@ const newListItemForm = () => {
                     task_name_input.setAttribute("name", "task_name");
                     task_name_input.setAttribute("placeholder", "Enter Task");
                     task_name_input.setAttribute("required", "");
+                
+                const task_description = createTextInput("task_description", "task_description", "Enter Task description", false, true, "Task Description");
+                const task_description_label = task_description[0];
+                const task_description_input = task_description[1];
 
                 const task_difficultty = document.createElement("div");
                     task_difficultty.setAttribute("class", "task_difficulty");
@@ -93,6 +97,21 @@ const newListItemForm = () => {
                     task_difficultty.appendChild(createRadioButton("3", "difficulty", false, true, "3"));
                     task_difficultty.appendChild(createRadioButton("4", "difficulty", false, true, "4"));
                 
+                const task_priority = document.createElement("div");
+                    task_priority.setAttribute("class", "task_priority");
+                    const p2 = document.createElement("p");
+                        p2.textContent = "Task Priority";
+                    task_priority.appendChild(p2);
+
+                    task_priority.appendChild(createRadioButton("01", "priority", true, true, "1"));
+                    task_priority.appendChild(createRadioButton("02", "priority", false, true, "2"));
+                    task_priority.appendChild(createRadioButton("03", "priority", false, true, "3"));
+                    task_priority.appendChild(createRadioButton("04", "priority", false, true, "4"));                
+
+                const task_due_date_2 = createTextInput("task_due_date_2", "task_due_date_2", "DD-MM-YYYY", false, true, "Due Date: ");
+                const task_due_date_2_Label = task_due_date_2[0];
+                const task_due_date_2_input = task_due_date_2[1];                    
+
                 const permatask_bloc = createCheckBox("permanent_task", "permanent_task", true, "Permanent Task?");
                 permatask_bloc.setAttribute("class", "permatask_bloc");
 
@@ -116,7 +135,7 @@ const newListItemForm = () => {
                         close_button.setAttribute("formaction", "close");
                         close_button.textContent = "Cancel";
                 buttons.append(submit_button, close_button);
-        form.append(task_name_Label, task_name_input, task_difficultty, permatask_bloc, task_reset_Label, task_reset_input, task_reset_2_Label, task_reset_2_input, buttons);
+        form.append(task_name_Label, task_name_input, task_description_label, task_description_input, /*task_difficultty, permatask_bloc, */task_due_date_2_Label, task_due_date_2_input, task_priority, /*task_reset_Label, task_reset_input, task_reset_2_Label, task_reset_2_input,*/ buttons);
     dialog.append(h3, form);
     return dialog;
 }

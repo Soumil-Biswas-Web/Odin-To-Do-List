@@ -1,4 +1,6 @@
 import {form} from './createListForm';
+import { updateSave } from '../index';
+import { format, parse } from 'date-fns';
 
 let list_panel;
 let list_id = 0;
@@ -8,10 +10,13 @@ const init = () => {
 }
 
 // New List item Constructor
-function item(name, id, difficulty, isPermanent) {
+function item(name, desc, id, priority, due_date,/* difficulty,*/ isPermanent) {
   this.name = name;
+  this.desc = desc;
   this.id = id;
-  this.difficulty = difficulty;
+  this.priority = priority;
+  this.due_date = due_date;
+  // this.difficulty = difficulty;
   this.isPermanent = isPermanent;
   this.subList = [];
   this.superList = item;
@@ -23,11 +28,18 @@ const createNewListItem = () => {
   const listData = new FormData(form);
 
   const name = listData.get("task_name");
-  const difficulty = listData.get("difficulty");
+  const desc = listData.get("task_description");
+  const priority = listData.get("priority");
+  let due_date = listData.get("task_due_date_2");
+  due_date = parse(due_date, "dd-MM-yyyy", new Date());
+  due_date = format(due_date, "dd-MM-yyyy");
+  console.log(due_date);
+  // const difficulty = listData.get("difficulty");
   const isPermanent = listData.get("permanenet_task");
   const id = list_id + 1;
 
-  let listItem = new item(name, id, difficulty, isPermanent);
+  let listItem = new item(name, desc, id, priority, due_date, /*difficulty, */isPermanent);
+  updateSave();
   return listItem;
 };
 

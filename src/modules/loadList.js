@@ -19,9 +19,12 @@ const createListDOM = (listItem) => {
     checkMark.addEventListener("click", () => {
       handleCheckMark(checkMark, listItem);
     });
-    const p = document.createElement("p");
+    let p = document.createElement("p");
     p.textContent = listItem.name;
     list_item.appendChild(p);
+    // let p2 = document.createElement("p");
+    // p2.textContent = listItem.desc;
+    // list_item.appendChild(p2);
     list_panel.appendChild(list_item);
     createSubList(p, listItem);
 }
@@ -53,6 +56,13 @@ const populateList = (superList) => {
     console.log("Current listPrime = " + listPrime.name);
     let subListHeading = document.querySelector(".list h3");
     subListHeading.textContent = superList.name;
+    let subListDesc = document.querySelector(".list h5");
+    subListDesc.textContent = superList.desc;  
+    let subListDate = document.querySelector(".list h4");
+    if (superList.due_date !== "" || superList.due_date){
+        subListDate.textContent = ("Due Date: " + superList.due_date); 
+    }
+    else subListDate.textContent = ""; 
     console.log(superList.subList);
     for (let i in superList.subList) {
       createListDOM(superList.subList[i]);
@@ -95,7 +105,10 @@ const loadList = () => {
     list.setAttribute("class", "list");
     const h3 = document.createElement("h3");
     list.appendChild(h3);
-
+    const h2 = document.createElement("h5");
+    list.appendChild(h2);
+    const date = document.createElement("h4");
+    list.appendChild(date);
     return list;
 }
 
@@ -108,7 +121,9 @@ const createHeader = () => {
         const back_button = document.createElement("button");
         back_button.setAttribute("id", "back_btn");
         back_button.innerHTML = back_svg;
-    header.append(back_button, button);
+        const title = document.createElement("h1");
+        title.textContent = "Odin To-Do List";
+    header.append(back_button,title, button);
     
     return header;
 }

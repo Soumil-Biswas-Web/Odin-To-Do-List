@@ -5,6 +5,11 @@
     background-color: #232323;
 }
 
+h5, h4 {
+    font-size: 15px;
+    font-weight: lighter;;
+}
+
 body {
     flex: 1;
     display: flex;
@@ -50,6 +55,15 @@ form .task_difficulty {
 }
 
 .task_difficulty p {
+    grid-column: 1 / 5;
+}
+
+form .task_priority{
+    display: grid;
+    grid-template: repeat(2, 1fr) / repeat(4, 1fr);
+}
+
+.task_priority p {
     grid-column: 1 / 5;
 }
 
