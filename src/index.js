@@ -22,7 +22,7 @@ const updateListPrime = (superList) => {
 }
 
 const updateSave = () => {
-    localStorage.setItem("Main_List", superList);    
+    localStorage.setItem("Main_List", JSON.stringify(superList));    
 }
 
 export {listPrime, updateListPrime, updateSave};
