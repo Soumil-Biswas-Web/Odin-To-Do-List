@@ -85,11 +85,23 @@ const handleCheckMark = (checkMark, listItem) => {
     
     if (listItem.subList) {
       if (listItem.taskState == true){
-           for (let i in listItem.subList) listItem.sublist[i].taskState = true;
+           subListCheckMark(listItem);
       }
     }
 }
 
+// Make all sub lists checked
+const subListCheckMark = (listItem) => {
+    if (listItem.subList) {
+        for (let i in listItem.subList) subListCheckMark(listItem.sublist[i]);
+    }
+    else {
+        listItem.taskState = true;
+        console.log(listItem.name + " Checked.");
+    }
+}
+
+// Update Check Mark DOM
 const updateCheckMark = (checkMark, taskState) => {
     if (taskState) {
         checkMark.innerHTML = checkMark_svg;

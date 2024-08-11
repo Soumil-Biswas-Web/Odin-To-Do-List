@@ -30,10 +30,7 @@ const createNewListItem = () => {
   const name = listData.get("task_name");
   const desc = listData.get("task_description");
   const priority = listData.get("priority");
-  let due_date = listData.get("task_due_date_2");
-  due_date = parse(due_date, "dd-MM-yyyy", new Date());
-  due_date = format(due_date, "dd-MM-yyyy");
-  console.log(due_date);
+  const due_date = getDate(listData.get("task_due_date_2"));
   // const difficulty = listData.get("difficulty");
   const isPermanent = listData.get("permanenet_task");
   const id = list_id + 1;
@@ -42,6 +39,14 @@ const createNewListItem = () => {
   updateSave();
   return listItem;
 };
+
+const getDate = (due_date) => {
+  if (due_date) {
+    due_date = parse(due_date, "dd-MM-yyyy", new Date());
+    due_date = format(due_date, "dd-MM-yyyy");
+    console.log(due_date);
+  }
+}
 
 //Add Item to list
 const addToList = (listItem, superList) => {

@@ -15,14 +15,30 @@ const init = () => {
     document.body.appendChild(content);
 }
 
-let listPrime
+let listPrime;
+let objectString = "";
 
 const updateListPrime = (superList) => {
     listPrime = superList;
 }
 
 const updateSave = () => {
-    localStorage.setItem("Main_List", JSON.stringify(superList));    
+    objectString = JSON.stringify(superList);
+    localStorage.setItem("Main_List", objectString);
+    console.log("Saved: " + objectString);
+}
+
+const loadSave = () => {
+    let superList = JSON.parse(localStorage.getItem("Main_List"));
+    if (superList) {
+        objectString = JSON.stringify(superList);
+        console.log("Loaded: " + objectString);
+        return superList;
+    }
+    else {
+        console.log("Loaded: Null");
+        return;
+    }
 }
 
 export {listPrime, updateListPrime, updateSave};
@@ -34,7 +50,10 @@ init();
 console.log("DOM created");
 
 // Create Super List
-const superList = new handleListItem.item ("Main List", "", handleListItem.list_id, "", "", true);
+let superList = loadSave();
+if (superList) {
+    superList = new handleListItem.item ("Main List", "", handleListItem.list_id, "", "", true);
+}
 listPrime = superList;
 populateList(listPrime);
 
