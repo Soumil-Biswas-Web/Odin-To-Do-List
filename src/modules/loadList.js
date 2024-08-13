@@ -3,7 +3,8 @@ import back_svg from './Images/arrow-left.svg';
 import deselected_svg from './Images/deselected.svg';
 import checkMark_svg from './Images/checkbox-outline.svg';
 import {listPrime, updateListPrime} from '../index';
-import { retrieveItem, saveItem } from './localSave';
+import { removeItem, retrieveItem, saveItem } from './localSave';
+import { clearFromList } from './handleListItem';
 
 let currentID = 0;
 let list_panel;
@@ -20,12 +21,18 @@ const createListDOM = (listItem) => {
     checkMark.addEventListener("click", () => {
       handleCheckMark(checkMark, listItem);
     });
+
     let p = document.createElement("p");
     p.textContent = listItem.name;
     list_item.appendChild(p);
-    // let p2 = document.createElement("p");
-    // p2.textContent = listItem.desc;
-    // list_item.appendChild(p2);
+
+    let del = document.createElement("div");
+    del.textContent = "X";
+    list_item.appendChild(del);
+    del.addEventListener("click", () => {
+        clearLisTItem(listItem);
+    });
+
     list_panel.appendChild(list_item);
     createSubList(p, listItem);
 }
@@ -111,6 +118,14 @@ const updateCheckMark = (checkMark, taskState) => {
     }
     // taskState ? checkMark.textContent = "✔" : checkMark.textContent = "[ ]"
 };
+
+// Remove List Item
+const clearLisTItem = (listItem) => {
+    clearFromList(listItem, retrieveItem(listItem.superList));
+    clearList();
+    populateList(retrieveItem(listItem.superList));
+    removeItem(listItem.name);
+}
 
 const loadList = () => {
     const list = document.createElement("div");

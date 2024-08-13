@@ -52,7 +52,7 @@ const getDate = (due_date) => {
 
 //Add Item to list
 const addToList = (listItem, superList) => {
-  console.log("Current item: " + listItem.name + "Being added to: " + superList.name);
+  console.log("Current item: " + listItem.name + " being added to: " + superList.name);
   listItem.superList = superList.name;  
   superList.subList.push(listItem.name);
   console.log(superList.subList);
@@ -60,6 +60,25 @@ const addToList = (listItem, superList) => {
   saveItem(superList);
 };
 
+//Clear Item from List
+const clearFromList = (listItem, superList) => {
+  const findItem = (arr, itemName) => {
+    for (let i in arr) {
+      //console.log(arr[i] + " = " + itemName + "?");
+      if (arr[i] === itemName) {
+        let result = arr.splice(i, 1);
+        console.log("Found " + result);
+        return arr;
+      }
+    }
+    console.log("Item " + itemName + " not found.");
+    return arr;
+  }
 
+  console.log("Current item: " + listItem.name + " being removed from: " + superList.name);
+  superList.subList = findItem(superList.subList, listItem.name);
+  //console.log(superList.subList);
+  saveItem(superList);  
+}
 
-export {init, createNewListItem, addToList, item, list_id};
+export {init, createNewListItem, addToList, clearFromList, item, list_id};

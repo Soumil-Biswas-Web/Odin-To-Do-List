@@ -19,4 +19,9 @@ const saveItem = (listItem) => {
     //console.log("Saved: " + objectString);
 }
 
-export {retrieveItem, saveItem};
+const removeItem = (itemName) => {
+    localStorage.removeItem(itemName);
+    console.log("Removed: " + itemName);    
+}
+
+export {retrieveItem, saveItem, removeItem};
