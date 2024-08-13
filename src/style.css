@@ -122,8 +122,14 @@ form label {
 }
 
 .list_item {
-    display: flex;
+    display: grid;
+    grid-template: 1fr / repeat(3, auto);
     align-items: center;
+    justify-content: space-between;
+}
+
+.list_item p {
+    align-self: start;
 }
 
 .list_item div {
