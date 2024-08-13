@@ -4,6 +4,7 @@ import {handleFormButtons} from './modules/createListForm';
 import * as handleListItem from './modules/handleListItem';
 import list_id from './modules/handleListItem';
 import {populateList} from './modules/loadList';
+import { retrieveItem, saveItem } from './modules/localSave';
 
 // Load Content Page
 
@@ -50,9 +51,10 @@ init();
 console.log("DOM created");
 
 // Create Super List
-let superList = loadSave();
-if (superList) {
+let superList = retrieveItem("Main List");
+if (superList == null) {
     superList = new handleListItem.item ("Main List", "", handleListItem.list_id, "", "", true);
+    saveItem(superList);
 }
 listPrime = superList;
 populateList(listPrime);

@@ -1,6 +1,7 @@
 import {form} from './createListForm';
 import { updateSave } from '../index';
 import { format, parse } from 'date-fns';
+import { saveItem } from './localSave';
 
 let list_panel;
 let list_id = 0;
@@ -19,7 +20,7 @@ function item(name, desc, id, priority, due_date,/* difficulty,*/ isPermanent) {
   // this.difficulty = difficulty;
   this.isPermanent = isPermanent;
   this.subList = [];
-  this.superList = item;
+  this.superList = "";
   this.taskState = false;
 }
 
@@ -36,7 +37,6 @@ const createNewListItem = () => {
   const id = list_id + 1;
 
   let listItem = new item(name, desc, id, priority, due_date, /*difficulty, */isPermanent);
-  updateSave();
   return listItem;
 };
 
@@ -45,15 +45,19 @@ const getDate = (due_date) => {
     due_date = parse(due_date, "dd-MM-yyyy", new Date());
     due_date = format(due_date, "dd-MM-yyyy");
     console.log(due_date);
+    return due_date;
   }
+  else return "";
 }
 
 //Add Item to list
 const addToList = (listItem, superList) => {
   console.log("Current item: " + listItem.name + "Being added to: " + superList.name);
-  listItem.superList = superList;  
-  superList.subList.push(listItem);
-  console.log(superList.subList);  
+  listItem.superList = superList.name;  
+  superList.subList.push(listItem.name);
+  console.log(superList.subList);
+  saveItem(listItem);
+  saveItem(superList);
 };
 
 

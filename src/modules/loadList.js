@@ -3,6 +3,7 @@ import back_svg from './Images/arrow-left.svg';
 import deselected_svg from './Images/deselected.svg';
 import checkMark_svg from './Images/checkbox-outline.svg';
 import {listPrime, updateListPrime} from '../index';
+import { retrieveItem, saveItem } from './localSave';
 
 let currentID = 0;
 let list_panel;
@@ -54,18 +55,19 @@ const populateList = (superList) => {
     currentID = superList.id;
     console.log("Current ID: " + currentID);
     console.log("Current listPrime = " + listPrime.name);
-    let subListHeading = document.querySelector(".list h3");
-    subListHeading.textContent = superList.name;
-    let subListDesc = document.querySelector(".list h5");
-    subListDesc.textContent = superList.desc;  
-    let subListDate = document.querySelector(".list h4");
-    if (superList.due_date !== "" || superList.due_date){
-        subListDate.textContent = ("Due Date: " + superList.due_date); 
+    let listHeading = document.querySelector(".list h3");
+    listHeading.textContent = superList.name;
+    let listDesc = document.querySelector(".list h5");
+    listDesc.textContent = superList.desc;
+    let listDate = document.querySelector(".list h4");
+    if (superList.due_date !== "" && superList.due_date !== undefined){
+        listDate.textContent = ("Due Date: " + superList.due_date); 
     }
-    else subListDate.textContent = ""; 
+    else listDate.textContent = ""; 
     console.log(superList.subList);
     for (let i in superList.subList) {
-      createListDOM(superList.subList[i]);
+      let sublistItem = retrieveItem(superList.subList[i]);
+      createListDOM(sublistItem);
     }
 }
 
@@ -73,31 +75,29 @@ const populateList = (superList) => {
 const handleBackButton = () => {
     if (listPrime.name !== "Main List") {
         clearList();
-        populateList(listPrime.superList);
+        populateList(retrieveItem(listPrime.superList));
     }
 }
   
 // Handle task Check Mark
 const handleCheckMark = (checkMark, listItem) => {
     listItem.taskState = listItem.taskState ? false : true;
-    console.log(listItem.taskState);
+    //console.log(listItem.taskState);
+    saveItem(listItem);
     updateCheckMark(checkMark, listItem.taskState);
     
-    if (listItem.subList) {
-      if (listItem.taskState == true){
-           subListCheckMark(listItem);
-      }
+    if (listItem.subList.length != 0) {
+        subListCheckMark(listItem, listItem.taskState);
     }
 }
 
 // Make all sub lists checked
-const subListCheckMark = (listItem) => {
-    if (listItem.subList) {
-        for (let i in listItem.subList) subListCheckMark(listItem.sublist[i]);
-    }
-    else {
-        listItem.taskState = true;
-        console.log(listItem.name + " Checked.");
+const subListCheckMark = (listItem, state) => {
+    listItem.taskState = state;
+    console.log(listItem.name + " Checked to " + state);
+    saveItem(listItem);
+    if (listItem.subList.length !== 0) {
+        for (let i in listItem.subList) subListCheckMark(retrieveItem(listItem.subList[i]), state);
     }
 }
 
