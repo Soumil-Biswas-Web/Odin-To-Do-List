@@ -1,7 +1,8 @@
 * {
     color: #FFFFFF;
     font-family: 'Inter';
-    font-size: 20px;
+    /* font-size: 20px; */
+    font-size: 1.2em;
     background-color: #232323;
 }
 
@@ -21,8 +22,10 @@ body {
 }
 
 #content {
-    width: 360px;
-    height: 800px;
+    /* width: 360px; */
+    /* height: 800px; */
+    height: 100vh;
+    width: min(45vh, 100vw);
 }
 
 button {
@@ -134,4 +137,12 @@ form label {
 
 .list_item div {
     margin-right: 10px;
+}
+
+/* -- For Mobile Phones -- */
+
+@media(max-width: 700px) {
+    * {
+        font-size: 1.2em;
+    }
 }
