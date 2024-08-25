@@ -21,7 +21,7 @@ body {
     margin: 0;
 }
 
-#content {
+#content form {
     /* width: 360px; */
     /* height: 800px; */
     height: 100vh;
@@ -37,8 +37,6 @@ dialog {
 }
 
 form {
-    width: 360px;
-    height: 800px;
     display: flex;
     flex-direction: column;
 }

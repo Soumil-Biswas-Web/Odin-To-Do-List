@@ -132,7 +132,8 @@ const newListItemForm = () => {
 
                         const close_button = document.createElement("button");
                         close_button.setAttribute("class", "close_button");
-                        close_button.setAttribute("formaction", "close");
+                        close_button.setAttribute("value", "cancel");
+                        close_button.setAttribute("formnovalidate", "true");
                         close_button.textContent = "Cancel";
                 buttons.append(submit_button, close_button);
         form.append(task_name_Label, task_name_input, task_description_label, task_description_input, /*task_difficultty, permatask_bloc, */task_due_date_2_Label, task_due_date_2_input, task_priority, /*task_reset_Label, task_reset_input, task_reset_2_Label, task_reset_2_input,*/ buttons);
@@ -141,13 +142,16 @@ const newListItemForm = () => {
 }
 
 const handleFormButtons = () => {
-    const dialog = document.querySelector("dialog");
+    let dialog = document.querySelector("dialog");
 
     // Open New Task Form
 
     const newTask = document.querySelector("#open_btn");
     newTask.addEventListener("click", () => {
-    dialog.showModal()
+    let content = document.querySelector("#content");
+    content.removeChild(dialog);
+    dialog = content.appendChild(newListItemForm());
+    dialog.showModal();
     });
 
     // Go back to previous List
@@ -168,7 +172,13 @@ const handleFormButtons = () => {
     });
 
     const closeBtn = document.querySelector(".close_button");
-    closeBtn.addEventListener("click", () => dialog.close());
+    closeBtn.addEventListener("click", (e) => {
+        dialog.close();
+    });
+
+    form.addEventListener("close", (e) => {
+        e.preventDefault();
+    })
 }
 
 export {newListItemForm, handleFormButtons, form};
