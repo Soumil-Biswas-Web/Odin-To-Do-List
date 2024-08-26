@@ -1,6 +1,6 @@
 import './style.css';
 import pageLoad from './modules/pageLoad';
-import {handleFormButtons} from './modules/createListForm';
+import {handleFormButtons, handleListPageButtons} from './modules/createListForm';
 import * as handleListItem from './modules/handleListItem';
 import list_id from './modules/handleListItem';
 import {populateList} from './modules/loadList';
@@ -62,4 +62,5 @@ populateList(listPrime);
 // Initialize handleListITem Module
 handleListItem.init();
 // Initialize SUBMIT and + Buttons in List Form
-handleFormButtons();
+// handleFormButtons();
+handleListPageButtons();

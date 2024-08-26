@@ -141,17 +141,17 @@ const newListItemForm = () => {
     return dialog;
 }
 
-const handleFormButtons = () => {
-    let dialog = document.querySelector("dialog");
-
+const handleListPageButtons = () => {
     // Open New Task Form
 
     const newTask = document.querySelector("#open_btn");
     newTask.addEventListener("click", () => {
-    let content = document.querySelector("#content");
-    content.removeChild(dialog);
-    dialog = content.appendChild(newListItemForm());
-    dialog.showModal();
+        let content = document.querySelector("#content");
+        let dialog = document.querySelector("dialog");
+        content.removeChild(dialog);
+        dialog = content.appendChild(newListItemForm());
+        dialog.showModal();
+        handleFormButtons();
     });
 
     // Go back to previous List
@@ -159,20 +159,27 @@ const handleFormButtons = () => {
     goBack.addEventListener("click", () => {
         handleBackButton();
     });
+}
+
+const handleFormButtons = () => {
+    // let dialog = document.querySelector("dialog");
 
     // Handle Submit Button
 
-    const form = document.querySelector("#new_task_form");
+    let form = document.querySelector("#new_task_form");
     form.addEventListener("submit", (e) => {
-    //e.preventDefault();
-    const newListItem = createNewListItem();
-    console.log("Current item: " + newListItem.name + "Being added to: " + listPrime.name);
-    addToList(newListItem, listPrime);
-    createListDOM(newListItem);
+        //e.preventDefault();
+        const newListItem = createNewListItem();
+        if (newListItem.name !== ''){
+            console.log("Current item: " + newListItem.name + "Being added to: " + listPrime.name);
+            addToList(newListItem, listPrime);
+            createListDOM(newListItem);
+        }
     });
 
     const closeBtn = document.querySelector(".close_button");
     closeBtn.addEventListener("click", (e) => {
+        let dialog = document.querySelector("dialog");
         dialog.close();
     });
 
@@ -181,4 +188,4 @@ const handleFormButtons = () => {
     })
 }
 
-export {newListItemForm, handleFormButtons, form};
+export {newListItemForm, handleFormButtons, handleListPageButtons, form};
